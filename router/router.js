@@ -20,9 +20,13 @@ const postMessage = require('../controllers/messages/postMessage')
 router.get('/users/:id', getUser)
 router.post('/users', postUser)
 router.patch('/users/:id', patchUser)
+router.delete('/users/:id', deleteUser)
 
 router.get('/groups/:id', getGroup)
 router.post('/groups', postGroup)
+router.delete('/groups/:id', deleteGroup)
+router.post('/groups/add/:userid', addMember)
+router.post('/groups/remove/:userid', removeMember)
 
 router.get('/messages/:id', getMessage)
 router.post('/messages', postMessage)

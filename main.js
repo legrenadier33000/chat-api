@@ -16,7 +16,7 @@ async function main() {
     await mongoose.connect('mongodb://localhost:27017/test');
 }
 
-
+app.use(express.json())
 app.use(router);
 
 app.listen(port, () => console.log(`Listening on ${port}`))
