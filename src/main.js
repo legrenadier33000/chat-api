@@ -8,15 +8,13 @@ const mongoose = require("mongoose")
 const router = require("./router/router")
 const port = process.env.APP_PORT || 80
 
-
 main().catch(e => console.log(e));
 
 async function main() {
     const mongoConnectionString = process.env.MONGO_STRING
-    await mongoose.connect('mongodb://localhost:27017/test');
+    await mongoose.connect('mongodb://localhost:27017/chat-api');
     console.log('Connected to MongoDB')
 }
-
 app.use(express.json())
 app.use(router);
 

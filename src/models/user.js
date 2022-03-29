@@ -10,6 +10,7 @@ const privateMessageSchema = new mongoose.Schema({
 const userSchema = new mongoose.Schema({
     email: String,
     password: String,
+    inbox: [privateMessageSchema],
     created_at: { type: Date, default: Date.now() }
 })
 

@@ -22,15 +22,25 @@ const readGroupMessages = async (req, res) => {
         const group = await Group.findById(req.params.id)
 
         if(!group) { throw new Error("Group not found")}
-        
-        console.log(group.members[0])
 
+        // Fetch all unread messages
         const unreadMessages = group.messages.filter((message) => {
-            return !(userId in message.read_by)
+            for(read_by of message.read_by)
+                if(JSON.stringify(userId) === JSON.stringify(read_by))
+                    return false
+            return true
         })
+
+        // Mark all messages as "read"
+        for(message of unreadMessages) {
+            message.read_by.push(userId)
+        }
+
+        await group.save()
 
         res.send(JSON.stringify(unreadMessages))
     } catch (e) {
+        console.log(e)
         res.status(500).send(e.message)
     }
 }

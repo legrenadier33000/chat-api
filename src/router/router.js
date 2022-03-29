@@ -1,10 +1,27 @@
 const express = require("express")
 const router = express.Router()
 
+const swaggerJsdoc = require('swagger-jsdoc')
+const swaggerUi = require('swagger-ui-express')
+const swaggerOptions = {
+  definition: {
+    openapi: '3.0.0',
+    info: {
+      title: 'Chat API',
+      version: '1.0.0',
+    },
+  },
+  apis: ['./src/router/router.js'],
+};
+
+const openapiSpecification = swaggerJsdoc(swaggerOptions);
+router.use('/docs', swaggerUi.serve, swaggerUi.setup(openapiSpecification))
+
 /* Middlewares */
 const authGuard = require('../middlewares/authGuard')
 
 /* Controllers */
+
 const register = require('../controllers/users/register')
 const login = require('../controllers/users/login')
 const getUser = require('../controllers/users/getUser')
@@ -21,8 +38,17 @@ const readGroupMessages = require('../controllers/groups/readGroupMessages')
 const livenessProb = require('../controllers/livenessprob/livenessprob')
 
 /* Router */
-router.post('/register', register)                                          // OK
-router.post('/login', login)                                                // OK
+router.post('/users/register', register)                                    // OK
+router.post('/users/login', login)                                          // OK
+/**
+ * @openapi
+ * /users/:id:
+ *   get:
+ *     description: Welcome to swagger-jsdoc!
+ *     responses:
+ *       200:
+ *         description: Returns the corresponding user.
+ */
 router.get('/users/:id', getUser)                                           // OK
 router.delete('/users/:id', deleteUser)                                     // OK
 
