@@ -15,7 +15,9 @@ async function main() {
     await mongoose.connect('mongodb://localhost:27017/chat-api');
     console.log('Connected to MongoDB')
 }
+
+app.disable('x-powered-by')
 app.use(express.json())
-app.use(router);
+app.use(router)
 
 app.listen(port, () => console.log(`Listening on ${port}`))
