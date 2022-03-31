@@ -42,7 +42,6 @@ const login = async (req, res) => {
         res.send({jwt: token})
 
     } catch (e) {
-        console.log(e)
         res.status(500).send(e.message)
     }
 }

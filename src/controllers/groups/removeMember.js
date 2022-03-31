@@ -22,12 +22,9 @@ const removeMember = async (req, res) => {
         const group = await Group.findById(req.params.groupId)
         const user = await User.findById(req.params.userId)
 
-        console.log(user)
-
         if(!group) { throw new Error("Group not found") }
 
         if(!user) { throw new Error("User not found") }
-        
 
         group.members.pull(req.params.userId)
 

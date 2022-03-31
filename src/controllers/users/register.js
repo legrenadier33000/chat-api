@@ -34,7 +34,6 @@ const register = async (req, res) => {
     
         res.send(JSON.stringify(registeredUser))
     } catch (e) {
-        console.log(e)
         res.status(500).send(e.message)
     }
 }

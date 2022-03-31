@@ -40,7 +40,6 @@ const readGroupMessages = async (req, res) => {
 
         res.send(JSON.stringify(unreadMessages))
     } catch (e) {
-        console.log(e)
         res.status(500).send(e.message)
     }
 }
