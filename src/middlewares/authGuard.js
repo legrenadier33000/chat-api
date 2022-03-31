@@ -4,19 +4,23 @@ const APP_SECRET_KEY = process.env.APP_SECRET_KEY
 
 const authguard = async (req, res, next) => {
     try {
-        const reqJwt = req.headers?.jwt
-    
-        if(!reqJwt) {
-            throw new Error("No JWT header")
-        }
-
-        const decoded = jwt.verify(reqJwt, APP_SECRET_KEY)
-
-        if(!decoded) { 
-            throw new Error("Invalid JWT")
-        }
+        const authHeader = req.headers?.authorization
         
-        // Embed the decoded JWT (user's info) to pass it to the next middleware
+        if(!authHeader) { throw new Error("No Authorization header") }
+
+        const array = authHeader.split(' ')
+
+        if(array.length !== 2) { throw new Error("Invalid Authorizaiton header") } 
+
+        const bearer = array[0]
+        const token = array[1]
+
+        if(bearer !== "Bearer") { throw new Error("Invalid Bearer type")}
+
+        const decoded = jwt.verify(token, APP_SECRET_KEY)
+
+        if(!decoded) { throw new Error("Invalid JWT") }
+        
         res.locals.user = decoded
         next()
     } catch (e) {
