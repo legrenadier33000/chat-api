@@ -40,9 +40,9 @@ La figure ci-dessous illustre la structure du projet, celui-ci est divisé en co
 
 ```
 ├───controllers
-│   ├───groups	        //  Gestion des groupes
+│   ├───groups	        // Gestion des groupes
 │   ├───livenessprob    // Sonde  applicative
-│   └───users           //  Gestion des utilisateurs
+│   └───users           // Gestion des utilisateurs
 ├───middlewares
 │   └───auth            // Gestion de l'authentification et de l'autorisation
 ├───models              // Schémas des objets stockées dans MongoDB
