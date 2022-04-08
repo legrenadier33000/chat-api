@@ -1,14 +1,9 @@
-class ErrorHandler {
-    static handle(err, req, res) {
-        const error = {
-            message: err?.message,
-            status: err?.status || 500,
-            stack: err?.stack,
-        }
+const errorHandler = (err, req, res) => {
+    if (res.headersSent)
+        return next(err)
 
-        console.log(error.stack)
-        res.status(error.status).json(error)
-    }
+    res.status(500)
+    return res.render('error', { error: err })
 }
 
-module.exports = ErrorHandler
+module.exports = errorHandler
