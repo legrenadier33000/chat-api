@@ -3,18 +3,11 @@ dotenv.config()
 
 const express = require("express")
 const app = express()
-const mongoose = require("mongoose")
-
 const router = require("./router/router")
 const port = process.env.APP_PORT || 80
 
-main().catch(e => console.error(e));
-
-async function main() {
-    const mongoConnectionString = process.env.MONGO_STRING || "mongodb://localhost:27017/chat-api"
-    await mongoose.connect(mongoConnectionString);
-    console.log('Connected to MongoDB')
-}
+const mongoConnect = require("./utils/db/mongoConnection")
+mongoConnect().catch(e => console.error(e))
 
 app.disable('x-powered-by')
 app.use(express.json())
