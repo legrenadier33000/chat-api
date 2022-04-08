@@ -18,9 +18,11 @@ Le but de ce projet est de réaliser un service REST exposant une API permettant
 
 ## 2. L'environnement
 
-Ce projet est réalisé exclusivement en JavaScript puisqu'il s'agit d'un projet dît "backend", l'application est donc exécuter sur NodeJS, un environnement d'exécution JavaScript côté serveur. NodeJS propose en plus de son environnement d'exécution un gestionnaire de paquet, NPM (NodeJS Packet Manager).
+Ce projet est réalisé exclusivement en JavaScript. Il s'agit d'un projet dît "backend", l'application est donc exécutée sur Node.js, un environnement d'exécution JavaScript côté serveur. 
 
-Le projet utilise donc les paquets NPM suivant :
+Node.js propose en plus de son environnement d'exécution un gestionnaire de paquet, NPM (Node.js Packet Manager).
+
+Le projet utilise les paquets NPM suivant :
 
 - **ExpressJS**, permet la création d'un serveur web afin d'exposer les différentes ressources de l'API et les méthodes associées.
 - **Mongoose**, un ORM (Object Relational Mapper) permettant d'intéragir avec une base de données MongoDB (base de données NoSQL orientée stockage de documents JSON).
@@ -30,10 +32,55 @@ Le projet utilise donc les paquets NPM suivant :
 - **Swagger-Jsdoc**, une librairie générant une spécification YAML Swagger à partir des commentaires placé dans le code.
 - **Swagger-Ui-Express**, une librairie générant une interface utilisateur Swagger basée sur la spécification YAML générée par Swagger-Jsdoc.
 
-Afin de rendre l'application plus flexible, les variables susceptibles de changer selon l'environnement d'exécution (ex. port du serveur web, identifiant de connexion à la base de données) sont stockées dans des variables d'environnement.
+Afin de rendre l'application plus flexible et sécurisée, les variables susceptibles de changer selon l'environnement d'exécution (ex. port du serveur web, identifiant de connexion à la base de données) sont stockées dans des variables d'environnement.
 
-## 2. Le service REST
+## 2. Structure du projet
 
+La figure ci-dessous illustre la structure du projet, celui-ci est divisé en contrôleurs (logique de l'application), middlewares (authentification), routes (triplet d'une URL, d'une méthode HTTP et d'un contrôleur), de modèle (schémas d'objet stockés en base) et d'utilitaires (ex. connexion à la base de données, erreurs).
 
+```
+├───controllers
+│   ├───groups		         //  Gestion des groupes
+│   ├───livenessprob		 		  	 // Sonde  applicative
+│   └───users	         	 //  Gestion des utilisateurs
+├───middlewares
+│   └───auth	           // Gestion de l'authentification et de l'autorisation
+├───models	             // Schémas des objets stockées dans MongoDB
+├───router					    		          	 // Route HTTP de l'application
+└───utils              	 // Utilitaires
+    ├───db                // Connexion à MongoDB
+    └───errors				           // Erreurs spécifiques à l'application
+```
 
-​	
+## 3. User Stories
+
+Le projet a été réalisé en utilisant un tableau kanban afin de rendre visible les différentes tâches et suivre efficacement leur avancement.
+
+Les tâches formant le back log du kanban ont étaient extraient des *user stories* ci-dessous :
+
+`En tant qu'utilisateur, je souhaite pouvoir m'inscire et me connecter de façon sécurisé à l'API de chat de groupe.`
+
+`En tant qu'utilisateur, je souhaite pouvoir créer des groupes de discution.`
+
+`En tant qu'utilisateur créateur d'un groupe, je souhaite pouvoir supprimer ce groupe.`
+
+`En tant qu'utilisateur, je souhaite pouvoir ajouter des membres à un groupe de discution auquel je suis moi-même membre.`
+
+`En tant qu'utilisateur, je souhaite pouvoir envoyer et lire des messages d'un groupe auquel je suis membre.`
+
+`En tant qu'utilisateur créateur d'un groupe, je souhaite pouvoir retirer un ou plusieurs membre de ce groupe.`
+
+`En tant qu'utilisateur, je souhaite pouvoir quitter un groupe duquel je suis membre.`
+
+## 4. Conception de la base de données
+
+Les exigences précédemment établies via les *user stories* ont permis de déterminer les modèles (objets stockés en base de données afin d'assurer la persistance des données applicatives) nécessaires à l'application :
+
+- Un modèle **User**, représentant un utilisateur.
+- Un modèle **Group**, représentant un groupe de discution.
+- Un modèle **GroupMessage**, représentant un message à destination d'un groupe.
+
+La base de données choisie pour ce projet est MongoDB, une base de données orientée documents dîtes NoSQL. Du fait que MongoDB soit orientée documents, il n'y à pas de relations explicites (ex. clé primaire, clé étrangère, contraintes) entre les documents. Par conséquent, les utilisateurs sont tous stockés dans un même document de la même manière que les groupes. La particularité est qu'il n'y a pas ici de documents pour stocker les messages d'un groupe. En effet, l'un des avantages d'une base de données orientée document et de pouvoir stockée des données imbriquées dans un même document sans perdre en performance en terme de latence de requête. Chaque objet `Group` stocké dans Mongo dispose donc d'un attribut `messages` contenant entièreté des messages envoyés dans ce groupe.
+
+## 5. Service REST
+
