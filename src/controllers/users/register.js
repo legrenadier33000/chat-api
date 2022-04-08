@@ -20,13 +20,13 @@ const register = async (req, res, next) => {
     const valid = ajv.validate(schema, req.body)
 
     if(!valid) {
-        return return next(InvalidRequestSchema.factory(ajv.errorsText()))
+        return next(InvalidRequestSchema.factory(ajv.errorsText()))
     }
 
     const existingEmail = await User.findOne({ email: req.body.email }).exec()
 
     if(existingEmail) {
-        return return next(EmailAlreadyInUse.factory())
+        return next(EmailAlreadyInUse.factory())
     }
 
     req.body.password = await bcrypt.hash(req.body.password, 10)

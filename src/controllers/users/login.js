@@ -23,19 +23,19 @@ const login = async (req, res, next) => {
     const valid = ajv.validate(schema, req.body)
 
     if(!valid) {
-        return return next(InvalidRequestSchema.factory())
+        return next(InvalidRequestSchema.factory())
     }
 
     const user = await User.findOne({ email: req.body.email }).lean()
 
     if(!user) {
-        return return next(InvalidCredentials.factory())
+        return next(InvalidCredentials.factory())
     }
 
     const hashValidation = await bcrypt.compare(req.body.password, user.password)
 
     if(!hashValidation) {
-        return return next(InvalidCredentials.factory())
+        return next(InvalidCredentials.factory())
     }
 
     const token = jwt.sign(user, APP_SECRET_KEY, { expiresIn: '1h' })
