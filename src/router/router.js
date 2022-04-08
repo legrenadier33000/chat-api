@@ -28,7 +28,7 @@ const openapiSpecification = swaggerJsdoc(swaggerOptions);
 router.use('/docs', swaggerUi.serve, swaggerUi.setup(openapiSpecification))
 
 /* Middlewares */
-const authGuard = require('../middlewares/authGuard')
+const authGuard = require('../middlewares/auth/authGuard')
 
 /* Controllers */
 const register = require('../controllers/users/register')

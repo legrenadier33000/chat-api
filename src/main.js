@@ -7,6 +7,7 @@ const mongoose = require("mongoose")
 
 const router = require("./router/router")
 const port = process.env.APP_PORT || 80
+const ErrorHandler = require("./middlewares/errors/ErrorHandler")
 
 main().catch(e => console.log(e));
 
@@ -19,5 +20,7 @@ async function main() {
 app.disable('x-powered-by')
 app.use(express.json())
 app.use(router)
+
+app.use(ErrorHandler.handle)
 
 app.listen(port, () => console.log(`Listening on ${port}`))
