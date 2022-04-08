@@ -2,7 +2,7 @@ class NoCredentials extends Error {
     constructor(message) {
         super(message)
         this.name = 'NoCredentials'
-        this.statusCode = 403
+        this.code = 403
     }
 
     static factory(message='No credentials in request\'s header') {

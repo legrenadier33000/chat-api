@@ -3,8 +3,8 @@ const Ajv = require("ajv")
 const ajv = new Ajv()
 const User = require('../../models/user')
 
-const InvalidRequestSchema = require('../../middlewares/errors/InvalidRequestSchema')
-const EmailAlreadyInUse = require('../../middlewares/errors/EmailAlreadyInUse')
+const InvalidRequestSchema = require('../../utils/errors/InvalidRequestSchema')
+const EmailAlreadyInUse = require('../../utils/errors/EmailAlreadyInUse')
 
 const schema = {
     type: "object",
@@ -20,13 +20,13 @@ const register = async (req, res, next) => {
     const valid = ajv.validate(schema, req.body)
 
     if(!valid) {
-        next(InvalidRequestSchema.factory(ajv.errorsText()))
+        return return next(InvalidRequestSchema.factory(ajv.errorsText()))
     }
 
     const existingEmail = await User.findOne({ email: req.body.email }).exec()
 
     if(existingEmail) {
-        next(EmailAlreadyInUse.factory())
+        return return next(EmailAlreadyInUse.factory())
     }
 
     req.body.password = await bcrypt.hash(req.body.password, 10)

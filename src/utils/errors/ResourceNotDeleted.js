@@ -2,7 +2,7 @@ class ResourceNotDeleted extends Error {
     constructor(message) {
         super(message);
         this.name = 'ResourceNotDeleted'
-        this.statusCode = 500
+        this.code = 500
     }
 
     static factory(message) {

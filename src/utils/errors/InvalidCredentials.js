@@ -2,7 +2,7 @@ class InvalidCredentials extends Error {
     constructor(message) {
         super(message)
         this.name = 'InvalidCredentials'
-        this.statuscode = 403
+        this.code = 403
     }
 
     static factory(message='Invalid credentials') {

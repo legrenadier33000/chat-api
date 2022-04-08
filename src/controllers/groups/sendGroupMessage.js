@@ -1,6 +1,6 @@
 const { Group, GroupMessage } = require('../../models/group')
 const Ajv = require("ajv")
-const ResourceNotFound = require('../../middlewares/errors/ResourceNotFound')
+const ResourceNotFound = require('../../utils/errors/ResourceNotFound')
 const ajv = new Ajv()
 
 const schema = {
@@ -16,14 +16,14 @@ const sendMessage = async (req, res, next) => {
     const valid = ajv.validate(schema, req.body)
     
     if(!valid) { 
-        next(InvalidRequestSchema.factory(ajv.errorsText()))
+        return next(InvalidRequestSchema.factory(ajv.errorsText()))
     }
 
     const userId = res.locals.user._id
     const group = await Group.findById(req.params?.id)
 
     if(!group) { 
-        next(ResourceNotFound.factory('Group not found'))
+        return next(ResourceNotFound.factory('Group not found'))
     }
 
     const message = new GroupMessage({

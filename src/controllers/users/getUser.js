@@ -2,8 +2,8 @@ const Ajv = require("ajv")
 const ajv = new Ajv()
 const User = require('../../models/user')
 
-const InvalidRequestSchema = require('../../middlewares/errors/InvalidRequestSchema')
-const ResourceNotFound = require('../../middlewares/errors/ResourceNotFound')
+const InvalidRequestSchema = require('../../utils/errors/InvalidRequestSchema')
+const ResourceNotFound = require('../../utils/errors/ResourceNotFound')
 
 const schema = {
     type: "object",
@@ -18,13 +18,13 @@ const getUser = async (req, res, next) => {
     const valid = ajv.validate(schema, req.params)
 
     if(!valid) { 
-        next(InvalidRequestSchema.factory(ajv.errorsText()))
+        return next(InvalidRequestSchema.factory(ajv.errorsText()))
     }
 
     const user = await User.findById(req.params.id).lean()
 
     if(!user) {
-        next(ResourceNotFound.factory('User not found'))
+        return next(ResourceNotFound.factory('User not found'))
     }
 
     res.json(user)

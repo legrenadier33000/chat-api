@@ -2,8 +2,8 @@ const Ajv = require("ajv")
 const ajv = new Ajv()
 const { Group } = require('../../models/group')
 
-const InvalidRequestSchema = require("../../middlewares/errors/InvalidRequestSchema")
-const ResourceNotFound = require("../../middlewares/errors/ResourceNotFound")
+const InvalidRequestSchema = require("../../utils/errors/InvalidRequestSchema")
+const ResourceNotFound = require("../../utils/errors/ResourceNotFound")
 
 const schema = {
     type: "object",
@@ -19,13 +19,13 @@ const readGroupMessages = async (req, res, next) => {
     const userId = res.locals.user._id
 
     if(!valid) { 
-        next(InvalidRequestSchema.factory(ajv.errorsText()))
+        return next(InvalidRequestSchema.factory(ajv.errorsText()))
     }
 
     const group = await Group.findById(req.params.id)
 
     if(!group) { 
-        next(ResourceNotFound.factory('Group not found'))
+        return next(ResourceNotFound.factory('Group not found'))
     }
 
     // Fetch all unread messages

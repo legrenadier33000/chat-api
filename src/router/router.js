@@ -290,7 +290,7 @@ router.delete('/groups/:groupId/remove/:userId', authGuard ,removeMember)
  *     responses:
  *       200:
  *         description: Message was sent.
-  *       500:
+ *       500:
  *         description: Something went wrong (no JWT header, missing property in request, etc.)
  *     parameters:
  *       - in: path
@@ -313,7 +313,7 @@ router.post('/groups/:id/messages', authGuard, sendGroupMessage)
  *     responses:
  *       200:
  *         description: Messages list
-  *       500:
+ *       500:
  *         description: Something went wrong (no JWT header, missing property in request, etc.)
  *     parameters:
  *       - in: path
@@ -323,7 +323,7 @@ router.post('/groups/:id/messages', authGuard, sendGroupMessage)
  *         schema:
  *           type: string
  */
-router.get('/groups/:id/messages', authGuard, readGroupMessages)            // 
+router.get('/groups/:id/messages', authGuard, readGroupMessages)
 
 
 /**
@@ -342,5 +342,11 @@ router.get('/groups/:id/messages', authGuard, readGroupMessages)            //
  *         description: App is alive
  */
 router.get('/liveness', livenessProb)
+
+const errorHandler = async (err, req, res, next) => {
+    return res.status(err.code).send(err.message)
+}
+
+router.use(errorHandler)
 
 module.exports = router

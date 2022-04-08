@@ -22,7 +22,7 @@ const authguard = async (req, res, next) => {
         if(!decoded) { throw new Error("Invalid JWT") }
         
         res.locals.user = decoded
-        next()
+        return next()
     } catch (e) {
         res.status(403).send(e.message)
     }

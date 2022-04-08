@@ -3,8 +3,8 @@ const ajv = new Ajv()
 const { Group } = require('../../models/group')
 const User = require("../../models/user")
 
-const InvalidRequestSchema = require("../../middlewares/errors/InvalidRequestSchema")
-const ResourceNotFound = require("../../middlewares/errors/ResourceNotFound")
+const InvalidRequestSchema = require("../../utils/errors/InvalidRequestSchema")
+const ResourceNotFound = require("../../utils/errors/ResourceNotFound")
 
 const schema = {
     type: "object",
@@ -20,18 +20,18 @@ const removeMember = async (req, res, next) => {
     const valid = ajv.validate(schema, req.params)
     
     if(!valid) { 
-        next(InvalidRequestSchema.factory(ajv.errorsText()))
+        return next(InvalidRequestSchema.factory(ajv.errorsText()))
     }
 
     const group = await Group.findById(req.params.groupId)
     const user = await User.findById(req.params.userId)
 
     if(!group) { 
-        next(ResourceNotFound.factory('Group not found'))    
+        return next(ResourceNotFound.factory('Group not found'))    
     }
 
     if(!user) { 
-        next(ResourceNotFound.factory('User not found'))
+        return next(ResourceNotFound.factory('User not found'))
     }
 
     group.members.pull(req.params.userId)

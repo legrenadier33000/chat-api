@@ -2,7 +2,7 @@ const Ajv = require("ajv")
 const ajv = new Ajv()
 const { Group } = require('../../models/group')
 
-const InvalidRequestSchema = require("../../middlewares/errors/InvalidRequestSchema")
+const InvalidRequestSchema = require("../../utils/errors/InvalidRequestSchema")
 
 const schema = {
     type: "object",
@@ -18,7 +18,7 @@ const createGroup = async (req, res) => {
     const userId = res.locals.user._id
 
     if(!valid) {
-       next(InvalidRequestSchema.factory(ajv.errorsText()))
+       return next(InvalidRequestSchema.factory(ajv.errorsText()))
     }
 
     const newGroup = new Group({ name: req.body.name })
