@@ -26,9 +26,9 @@ Le projet utilise les paquets NPM suivant :
 
 - **ExpressJS**, permet la création d'un serveur web afin d'exposer les différentes ressources de l'API et les méthodes associées.
 - **Mongoose**, un ORM (Object Relational Mapper) permettant d'intéragir avec une base de données MongoDB (base de données NoSQL orientée stockage de documents JSON).
-- **JSONWebToken**, une librairie permettant de créer des JSON Web Token, un système d'authentification côté client (à l'inverse des sessions traditionnels stockées côté serveur et accédées par le client à l'aide d'un cookie contenant l'identifiant de la session).
-- **Bcrypt**, une librairie permettant d'utiliser des fonctions de hashages (ex. SHA-256, SHA-512, MD5).
-- **Ajv**, une librairie permettant de définir et valider des schémas JSON afin de vérifier que les données reçues par les endpoints de l'API sont conformes aux schémas définits.
+- **JSONWebToken**, une librairie permettant de créer des JSON Web Token, un système d'authentification côté client (à l'inverse des traditionnelles sessions stockées côté serveur et récupérées par le client à l'aide d'un cookie contenant l'identifiant de session).
+- **Bcrypt**, une librairie permettant, entre autres, d'utiliser des fonctions de hashages (ex. SHA-256, SHA-512, MD5).
+- **Ajv**, une librairie permettant de définir et valider des schémas JSON afin de vérifier que les données reçues par l'API sont conformes aux schémas définits et attendus.
 - **Swagger-Jsdoc**, une librairie générant une spécification YAML Swagger à partir des commentaires placé dans le code.
 - **Swagger-Ui-Express**, une librairie générant une interface utilisateur Swagger basée sur la spécification YAML générée par Swagger-Jsdoc.
 
@@ -80,7 +80,7 @@ Les exigences précédemment établies via les *user stories* ont permis de dét
 - Un modèle **Group**, représentant un groupe de discution.
 - Un modèle **GroupMessage**, représentant un message à destination d'un groupe.
 
-La base de données choisie pour ce projet est MongoDB, une base de données orientée documents dîtes NoSQL. Du fait que MongoDB soit orientée documents, il n'y à pas de relations explicites (ex. clé primaire, clé étrangère, contraintes) entre les documents. Par conséquent, les utilisateurs sont tous stockés dans un même document de la même manière que les groupes. La particularité est qu'il n'y a pas ici de documents pour stocker les messages d'un groupe. En effet, l'un des avantages d'une base de données orientée document et de pouvoir stockée des données imbriquées dans un même document sans perdre en performance en terme de latence de requête. Chaque objet `Group` stocké dans Mongo dispose donc d'un attribut `messages` contenant entièreté des messages envoyés dans ce groupe.
+La base de données choisie pour ce projet est MongoDB, une base de données orientée documents dîtes NoSQL. Du fait que MongoDB soit orientée documents, il n'y a pas de relations explicites (ex. clé primaire, clé étrangère, contraintes) entre les documents. Par conséquent, les utilisateurs sont tous stockés dans un même document de la même manière que les groupes. La particularité est qu'il n'y a pas ici de documents pour stocker les messages d'un groupe. En effet, l'un des avantages d'une base de données orientée document et de pouvoir stockée des données imbriquées dans un même document sans perdre en performance en terme de latence de requête. Chaque objet `Group` stocké dans Mongo dispose donc d'un attribut `messages` contenant entièreté des messages envoyés dans ce groupe.
 
 ## 5. Service REST
 
