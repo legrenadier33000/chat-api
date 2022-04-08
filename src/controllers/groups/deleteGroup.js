@@ -1,4 +1,8 @@
 const Ajv = require("ajv")
+const InsuficientCredentials = require("../../middlewares/errors/InsuficientCredentials")
+const InvalidRequestSchema = require("../../middlewares/errors/InvalidRequestSchema")
+const ResourceNotDeleted = require("../../middlewares/errors/ResourceNotDeleted")
+const ResourceNotFound = require("../../middlewares/errors/ResourceNotFound")
 const ajv = new Ajv()
 const { Group } = require('../../models/group')
 
@@ -11,41 +15,37 @@ const schema = {
     additionalProperties: false
 }
 
-const postGroup = async (req, res) => {
-    try {
-        const valid = ajv.validate(schema, req.params)
-        const userId = res.locals.user._id
+const postGroup = async (req, res, next) => {
+    const valid = ajv.validate(schema, req.params)
+    const userId = res.locals.user._id
 
-        if(!valid) {
-            throw new Error("Invalid request")
-        }
-
-        const group = await Group.findOne({ _id: req.params.id })
-
-        if(!group) { 
-            throw new Error("Group not found")
-        }
-        
-        let isAdministrator = false
-
-        for(admin of group.administrators) {
-            admin.toString() === userId ? isAdministrator = true : isAdministrator = false
-        }
-
-        if(!isAdministrator) {
-            throw new Error("You must be an administrator of this group to delete it")
-        }
-
-        const count = await Group.deleteOne({ _id: req.params.id })
-
-        if(count.deletedCount !== 1) {
-            throw new Error("Group could not be deleted, please retry later")
-        }
-    
-        res.send("Group deleted")
-    } catch (e) {
-        res.status(500).send(e.message)
+    if(!valid) {
+        next(InvalidRequestSchema.factory(ajv.errorsText()))
     }
+
+    const group = await Group.findOne({ _id: req.params.id })
+
+    if(!group) { 
+        next(ResourceNotFound.factory('Group not found'))
+    }
+    
+    let isAdministrator = false
+
+    for(admin of group.administrators) {
+        admin.toString() === userId ? isAdministrator = true : isAdministrator = false
+    }
+
+    if(!isAdministrator) {
+        next(InsuficientCredentials.factory())
+    }
+
+    const count = await Group.deleteOne({ _id: req.params.id })
+
+    if(count.deletedCount !== 1) {
+        next(ResourceNotDeleted.factory("Group could not be deleted"))
+    }
+
+    res.send("Group deleted")
 }
 
 module.exports = postGroup

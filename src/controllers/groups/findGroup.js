@@ -1,18 +1,15 @@
 const { Group } = require('../../models/group')
+const ResourceNotFound = require('../../middlewares/errors/ResourceNotFound')
 
-const getGroup = async (req, res) => {
-    try {
-        // TODO: Restrain viewing a group to its members only
-        const group = await Group.findById(req.params.id).lean()
-        
-        if(!group) {
-            throw new Error("Group not found")
-        }
-
-        res.send(JSON.stringify(group))
-    } catch (e) {
-        res.status(500).send(e.message)
+const getGroup = async (req, res, next) => {
+    // TODO: Restrain viewing a group to its members only
+    const group = await Group.findById(req.params.id).lean()
+    
+    if(!group) {
+        next(ResourceNotFound.factory('Group not found'))
     }
+
+    res.json(group)
 }
 
 module.exports = getGroup
