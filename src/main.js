@@ -9,11 +9,11 @@ const router = require("./router/router")
 const port = process.env.APP_PORT || 80
 const ErrorHandler = require("./middlewares/errors/ErrorHandler")
 
-main().catch(e => console.log(e));
+main().catch(e => console.error(e));
 
 async function main() {
-    const mongoConnectionString = process.env.MONGO_STRING
-    await mongoose.connect('mongodb://localhost:27017/chat-api');
+    const mongoConnectionString = process.env.MONGO_STRING || "mongodb://localhost:27017/chat-api"
+    await mongoose.connect(mongoConnectionString);
     console.log('Connected to MongoDB')
 }
 
