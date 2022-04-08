@@ -40,16 +40,16 @@ La figure ci-dessous illustre la structure du projet, celui-ci est divisé en co
 
 ```
 ├───controllers
-│   ├───groups		         //  Gestion des groupes
-│   ├───livenessprob		 		  	 // Sonde  applicative
-│   └───users	         	 //  Gestion des utilisateurs
+│   ├───groups	        //  Gestion des groupes
+│   ├───livenessprob    // Sonde  applicative
+│   └───users           //  Gestion des utilisateurs
 ├───middlewares
-│   └───auth	           // Gestion de l'authentification et de l'autorisation
-├───models	             // Schémas des objets stockées dans MongoDB
-├───router					    		          	 // Route HTTP de l'application
-└───utils              	 // Utilitaires
-    ├───db                // Connexion à MongoDB
-    └───errors				           // Erreurs spécifiques à l'application
+│   └───auth            // Gestion de l'authentification et de l'autorisation
+├───models              // Schémas des objets stockées dans MongoDB
+├───router              // Route HTTP de l'application
+└───utils               // Utilitaires
+    ├───db              // Connexion à MongoDB
+    └───errors          // Erreurs spécifiques à l'application
 ```
 
 ## 3. User Stories
