@@ -12,7 +12,7 @@ Le but de ce projet est de réaliser un service REST exposant une API permettant
 - De créer des groupes de discution
 - De poster dans des groupes de discution
 - De lire dans des groupes de discution
-- D'adminstrer des groupes de discution (ajout de membre, suppression de membre, suppression du groupe)
+- D'administrer des groupes de discution (ajout de membre, suppression de membre, suppression du groupe)
 
 
 
