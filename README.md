@@ -41,7 +41,7 @@ La figure ci-dessous illustre la structure du projet, celui-ci est divisé en co
 ```
 ├───controllers
 │   ├───groups	        // Gestion des groupes
-│   ├───livenessprob    // Sonde  applicative
+│   ├───livenessprob    // Sonde applicative
 │   └───users           // Gestion des utilisateurs
 ├───middlewares
 │   └───auth            // Gestion de l'authentification et de l'autorisation
@@ -56,7 +56,7 @@ La figure ci-dessous illustre la structure du projet, celui-ci est divisé en co
 
 Le projet a été réalisé en utilisant un tableau kanban afin de rendre visible les différentes tâches et suivre efficacement leur avancement.
 
-Les tâches formant le back log du kanban ont étaient extraient des *user stories* ci-dessous :
+Les tâches formant le back log du kanban ont été extraites des *user stories* ci-dessous :
 
 `En tant qu'utilisateur, je souhaite pouvoir m'inscire et me connecter de façon sécurisé à l'API de chat de groupe.`
 
@@ -68,7 +68,7 @@ Les tâches formant le back log du kanban ont étaient extraient des *user stori
 
 `En tant qu'utilisateur, je souhaite pouvoir envoyer et lire des messages d'un groupe auquel je suis membre.`
 
-`En tant qu'utilisateur créateur d'un groupe, je souhaite pouvoir retirer un ou plusieurs membre de ce groupe.`
+`En tant qu'utilisateur créateur d'un groupe, je souhaite pouvoir retirer un ou plusieurs membres de ce groupe.`
 
 `En tant qu'utilisateur, je souhaite pouvoir quitter un groupe duquel je suis membre.`
 
@@ -80,7 +80,7 @@ Les exigences précédemment établies via les *user stories* ont permis de dét
 - Un modèle **Group**, représentant un groupe de discution.
 - Un modèle **GroupMessage**, représentant un message à destination d'un groupe.
 
-La base de données choisie pour ce projet est MongoDB, une base de données orientée documents dîtes NoSQL. Du fait que MongoDB soit orientée documents, il n'y a pas de relations explicites (ex. clé primaire, clé étrangère, contraintes) entre les documents. Par conséquent, les utilisateurs sont tous stockés dans un même document de la même manière que les groupes. La particularité est qu'il n'y a pas ici de documents pour stocker les messages d'un groupe. En effet, l'un des avantages d'une base de données orientée document et de pouvoir stockée des données imbriquées dans un même document sans perdre en performance en terme de latence de requête. Chaque objet `Group` stocké dans Mongo dispose donc d'un attribut `messages` contenant entièreté des messages envoyés dans ce groupe.
+La base de données choisie pour ce projet est MongoDB, une base de données orientée documents dîtes NoSQL. Du fait que MongoDB soit orientée documents, il n'y a pas de relations explicites (ex. clé primaire, clé étrangère, contraintes) entre les documents. Par conséquent, les utilisateurs sont tous stockés dans un même document de la même manière que les groupes. La particularité est qu'il n'y a pas ici de documents pour stocker les messages d'un groupe. En effet, l'un des avantages d'une base de données orientée document et de pouvoir stockée des données imbriquées dans un même document sans perdre en performance en terme de latence de requête. Chaque objet `Group` stocké dans Mongo dispose donc d'un attribut `messages` contenant l'entièreté des messages envoyés dans ce groupe.
 
 ## 5. Service REST
 
@@ -97,9 +97,9 @@ Ce serveur web est donc une API REST puisqu'il :
 
 ## 6. Documentation de l'API
 
-Afin qu'une API puisse être utilisable facilement par ses utilisateurs finaux, il est nécessaire de réaliser une documentation. Cet API utilise donc le formalise OpenAPI (anciemment Swagger) pour documenter cet API REST. L'utilisation de ce format de documentation à plusieurs intérêts :
+Afin qu'une API puisse être utilisable facilement par ses utilisateurs finaux, il est nécessaire de réaliser une documentation. Cette API utilise donc le formalise OpenAPI (anciemment Swagger) pour documenter cette API REST. L'utilisation de ce format de documentation à plusieurs intérêts :
 
 - La spécification OpenAPI est standardisé, celle-ci est écrite en YAML.
-- Du fait de sa grande popularité, plusieurs outils se sont développés autour de la spécification OpenAPI, notamment : des outils créant une interface utilisateur fournissant une documentation interactive de l'API, des outils permettant de détecter les changements non rétrocompatibles entre deux version d'une même spécification OpenAPI, et bien d'autre.
+- Du fait de sa grande popularité, plusieurs outils se sont développés autour de la spécification OpenAPI, notamment : des outils créant une interface utilisateur fournissant une documentation interactive de l'API, des outils permettant de détecter les changements non rétrocompatibles entre deux version d'une même spécification OpenAPI, et bien d'autres.
 
 Ce projet utilise donc les packages `swagger-jsdoc`, afin de générer la spécification OpenAPI YAML à partir des commentaires dans le code, et `swagger-ui-express` afin de mettre en ligne sur le serveur web Express de l'API une interface utilisateur interactive documentant le fonctionnement de l'API.
