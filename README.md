@@ -84,3 +84,22 @@ La base de données choisie pour ce projet est MongoDB, une base de données ori
 
 ## 5. Service REST
 
+L'application utilise le package `express` afin de créer un serveur web disponible pour les clients. Des règles de routages sont définits sur le serveur web express. Une règle de routage est un triplet composé :
+
+- D'une URL
+- D'une méthode HTTP (ex. GET, POST, PATCH, DELETE)
+- D'un middleware, un logiciel prennant en charge la requête HTTP entrante
+
+Ce serveur web est donc une API REST puisqu'il :
+
+- Utilise le format JSON (JavaScript Object Notation) pour échanger des informations sur les requêtes entrantes et sortantes.
+- Utilise le protocole HTTP, les verbes associés (ex. GET, POST) pour qualifier les interractions possible avec l'API. 
+
+## 6. Documentation de l'API
+
+Afin qu'une API puisse être utilisable facilement par ses utilisateurs finaux, il est nécessaire de réaliser une documentation. Cet API utilise donc le formalise OpenAPI (anciemment Swagger) pour documenter cet API REST. L'utilisation de ce format de documentation à plusieurs intérêts :
+
+- La spécification OpenAPI est standardisé, celle-ci est écrite en YAML.
+- Du fait de sa grande popularité, plusieurs outils se sont développés autour de la spécification OpenAPI, notamment : des outils créant une interface utilisateur fournissant une documentation interactive de l'API, des outils permettant de détecter les changements non rétrocompatibles entre deux version d'une même spécification OpenAPI, et bien d'autre.
+
+Ce projet utilise donc les packages `swagger-jsdoc`, afin de générer la spécification OpenAPI YAML à partir des commentaires dans le code, et `swagger-ui-express` afin de mettre en ligne sur le serveur web Express de l'API une interface utilisateur interactive documentant le fonctionnement de l'API.
